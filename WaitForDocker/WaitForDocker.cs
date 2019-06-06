@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -51,10 +52,28 @@ namespace WaitForDocker
            foreach (var child in jo.Children().Where(v=>v.HasValues).Select(o=>o.Children()))
            {
                var ports = child["ports"];
+
+               if (!ports.Any()) continue;
+               foreach (var jToken in ports.Children())
+               {
+                   var tokenValue = jToken.Value<string>();
+                   if (!tokenValue.Contains(":"))
+                   {
+                       throw new Exception("Port not exposed");
+                   }
+
+                   var splittedPorts = tokenValue.Split(':');
+                   var client = new TcpClient("localhost", int.Parse(splittedPorts[0]));
+                 //  client.c;
+               }
            }
         }
 
-       
+        public class ServicePort
+        {
+            public string Name { get; set; }
+            public int Port { get; set; }
+        }
 
         private static ShellConfigurator GetShell()
         {

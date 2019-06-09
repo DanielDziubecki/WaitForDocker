@@ -1,9 +1,8 @@
-namespace WaitForDocker.Bridge
+namespace WaitForDocker.Shell
 {
-    public interface IBridgeSystem
+    public interface IShell
     {
         string GetFileName();
         string CommandConstructor(string command, Output? output = Output.Hidden, string dir = "");
-        void Browse(string url);
     }
 }

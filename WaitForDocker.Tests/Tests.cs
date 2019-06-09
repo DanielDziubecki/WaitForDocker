@@ -11,7 +11,10 @@ namespace WaitForDocker.Tests
         [Fact]
         public async Task Test()
         {
-            await WaitForDocker.Compose(composeFileName: "docker-compose-infrastructure.yaml");
+            await WaitForDocker.Compose(config => {
+                config.ComposeFileName = "docker-compose-infrastructure.yaml";
+                return config;
+            });
         }
     }
 }

@@ -1,45 +1,24 @@
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
 using WaitForDocker.Notification;
 
-namespace WaitForDocker.Bridge
+namespace WaitForDocker.Shell
 {
     public sealed class ShellConfigurator
     {
-        private static IBridgeSystem BridgeSystem { get; set; }
-        private static INotificationSystem NotificationSystem { get; set; }
+        private static IShell Shell { get; set; }
+        private static IShellOutputWriter ShellOutputWriter { get; set; }
 
-        public ShellConfigurator(IBridgeSystem bridgeSystem, INotificationSystem notificationSystem = null)
+        public ShellConfigurator(IShell shell, IShellOutputWriter shellOutputWriter = null)
         {
-            BridgeSystem = bridgeSystem ?? throw new ArgumentException(nameof(bridgeSystem));
+            Shell = shell ?? throw new ArgumentException(nameof(shell));
 
-            NotificationSystem = notificationSystem ?? Notification.NotificationSystem.Default;
+            ShellOutputWriter = shellOutputWriter ?? Notification.ShellOutputWriter.Default;
 
             if (!OS.IsWin())
             {
                 Term("chmod +x cmd.sh");
-            }
-        }
-
-        public static class OS
-        {
-            public static bool IsWin() =>
-                RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-            public static bool IsMac() =>
-                RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-
-            public static bool IsGnu() =>
-                RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-
-            public static string GetCurrent()
-            {
-                return
-                    (IsWin() ? "win" : null) ??
-                    (IsMac() ? "mac" : null) ??
-                    (IsGnu() ? "gnu" : null);
             }
         }
 
@@ -51,8 +30,8 @@ namespace WaitForDocker.Bridge
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = BridgeSystem.GetFileName(),
-                Arguments = BridgeSystem.CommandConstructor(command, output, dir),
+                FileName = Shell.GetFileName(),
+                Arguments = Shell.CommandConstructor(command, output, dir),
                 RedirectStandardInput = false,
                 RedirectStandardOutput = (output != Output.External),
                 RedirectStandardError = (output != Output.External),
@@ -69,20 +48,20 @@ namespace WaitForDocker.Bridge
                 switch (output)
                 {
                     case Output.Internal:
-                        NotificationSystem.StandardLine();
+                        ShellOutputWriter.StandardLine();
 
                         while (!process.StandardOutput.EndOfStream)
                         {
                             var line = process.StandardOutput.ReadLine();
                             stdout.AppendLine(line);
-                            NotificationSystem.StandardOutput(line);
+                            ShellOutputWriter.StandardOutput(line);
                         }
 
                         while (!process.StandardError.EndOfStream)
                         {
                             var line = process.StandardError.ReadLine();
                             stderr.AppendLine(line);
-                            NotificationSystem.StandardError(line);
+                            ShellOutputWriter.StandardError(line);
                         }
                         break;
                     case Output.Hidden:

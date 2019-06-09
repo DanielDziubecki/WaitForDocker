@@ -1,15 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 
-namespace WaitForDocker.Bridge
+namespace WaitForDocker.Shell
 {
-    public static partial class BridgeSystem
+    public static partial class ShellType
     {
-        public static IBridgeSystem Bash => new BridgeSystemBash();
+        public static IShell Bash => new BashShell();
     }
 
-    public sealed class BridgeSystemBash : IBridgeSystem
+    public sealed class BashShell : IShell
     {
         public string GetFileName()
         {
@@ -28,11 +26,6 @@ namespace WaitForDocker.Bridge
             }
             command = $"-c \"{command}\"";
             return command;
-        }
-
-        public void Browse(string url)
-        {
-            Process.Start("open", url);
         }
     }
 }

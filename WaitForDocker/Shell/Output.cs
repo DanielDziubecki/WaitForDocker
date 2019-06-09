@@ -1,4 +1,4 @@
-namespace WaitForDocker.Bridge
+namespace WaitForDocker.Shell
 {
     public enum Output
     {

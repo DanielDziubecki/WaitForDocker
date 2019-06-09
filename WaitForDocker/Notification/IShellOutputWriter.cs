@@ -1,10 +1,8 @@
 namespace WaitForDocker.Notification
 {
-    public interface INotificationSystem
+    public interface IShellOutputWriter
     {
-        void ShowAction(string action, string message);
         void StandardOutput(string message);
-        void StandardWarning(string message);
         void StandardError(string message);
         void StandardLine();
     }

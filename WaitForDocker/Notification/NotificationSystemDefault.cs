@@ -2,30 +2,14 @@ using System;
 
 namespace WaitForDocker.Notification
 {
-    public static class NotificationSystem
+    public static class ShellOutputWriter
     {
-        public static INotificationSystem Default
-        {
-            get
-            {
-                return new DefaultNotificationSystem();
-            }
-        }
+        public static IShellOutputWriter Default => new DefaultShellOutputWriter();
     }
 
-    public sealed class DefaultNotificationSystem : INotificationSystem
+    public sealed class DefaultShellOutputWriter : IShellOutputWriter
     {
-        public void ShowAction(string action, string message)
-        {
-            //Do nothing
-        }
-
         public void StandardOutput(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void StandardWarning(string message)
         {
             Console.WriteLine(message);
         }

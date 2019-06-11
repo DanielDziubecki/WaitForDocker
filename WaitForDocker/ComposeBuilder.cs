@@ -4,18 +4,18 @@ namespace WaitForDocker
 {
     public static class ComposeBuilder
     {
-        private const string ComposeUp = "docker-compose up";
+        private const string ComposeUp = "docker-compose {0} up";
         private const string ChangeDirectory = "cd";
 
-        public static string BuildComposeCommand(string dockerComposeDirPath)
+        public static string BuildComposeCommand(WaitForDockerConfig config)
         {
             var cmd = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(dockerComposeDirPath))
+            if (!string.IsNullOrWhiteSpace(config.DockerComposeDirPath))
             {
-                cmd.Append($@"{ChangeDirectory} {dockerComposeDirPath} && ");
+                cmd.Append($@"{ChangeDirectory} {config.DockerComposeDirPath} && ");
             }
 
-            cmd.Append(ComposeUp);
+            cmd.Append(string.Format(ComposeUp, string.Join(" ", config.ComposeParams)));
             return cmd.ToString();
         }
     }

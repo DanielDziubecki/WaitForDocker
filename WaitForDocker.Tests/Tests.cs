@@ -13,7 +13,6 @@ namespace WaitForDocker.Tests
         {
             await WaitForDocker.Compose(config => {
                 config.ComposeFileName = "docker-compose-infrastructure.yaml";
-                return config;
             });
         }
     }

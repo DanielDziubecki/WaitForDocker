@@ -8,7 +8,7 @@
             Port = port;
         }
 
-        public string Name { get;  }
-        public int Port { get;  }
+        public string Name { get; }
+        public int Port { get; }
     }
 }

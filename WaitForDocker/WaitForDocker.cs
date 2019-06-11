@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using WaitForDocker.Notification;
 
@@ -12,20 +14,49 @@ namespace WaitForDocker
             return Task.CompletedTask;
         }
 
-        public static Task Compose(Func<WaitForDockerConfig, WaitForDockerConfig> funcConfiguration = null)
+        public static Task Compose(Action<WaitForDockerConfig> funcConfiguration = null)
         {
             var config = new WaitForDockerConfig();
-            config = funcConfiguration == null ? config : funcConfiguration(config);
+            funcConfiguration?.Invoke(config);
 
             var composeYaml = Helpers.ReadComposeContent(config.DockerComposeDirPath, config.ComposeFileName);
             var composeJson = new JsonComposeConverter().Convert(composeYaml);
-            var ports = new JsonComposePortExtractor().ExtractPorts(composeJson);
+            var ports = new JsonComposeServicesPortsExtractor().ExtractPorts(composeJson);
 
-            var command = ComposeBuilder.BuildComposeCommand(config.DockerComposeDirPath);
+
+
+            var command = ComposeBuilder.BuildComposeCommand(config);
             var shell = ShellConfiguratorFactory.GetShell(config.ShellOutputWriter);
             var result = shell.Term(command);
 
             return Task.CompletedTask;
+        }
+    }
+
+    public static class ServiceChecker
+    {
+        private const string LocalHost = "127.0.0.1";
+
+        public static async Task<bool> IsServiceUp(int port, int timeoutInSeconds)
+        {
+            var client = new TcpClient();
+            var sp = new Stopwatch();
+            sp.Start();
+            while (sp.Elapsed.Seconds < timeoutInSeconds)
+            {
+                try
+                {
+                    await client.ConnectAsync(LocalHost, port);
+
+                    if (client.Connected)
+                        return client.Connected;
+                }
+                catch (Exception e)
+                {
+                    //ignore
+                }
+            }
+            return false;
         }
     }
 }

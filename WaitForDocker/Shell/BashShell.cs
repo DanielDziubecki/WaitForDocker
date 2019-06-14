@@ -14,16 +14,8 @@ namespace WaitForDocker.Shell
             return "/bin/bash";
         }
 
-        public string CommandConstructor(string command, Output? output = Output.Hidden, string dir = "")
+        public string CommandConstructor(string command)
         {
-            if (!string.IsNullOrEmpty(dir))
-            {
-                dir = $" '{dir}'";
-            }
-            if (output == Output.External)
-            {
-                command = $"sh \"{Directory.GetCurrentDirectory()}/cmd.sh\" '{command}'{dir}";
-            }
             command = $"-c \"{command}\"";
             return command;
         }

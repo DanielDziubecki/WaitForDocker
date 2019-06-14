@@ -14,16 +14,8 @@ namespace WaitForDocker.Shell
             return "cmd.exe";
         }
 
-        public string CommandConstructor(string command, Output? output = Output.Hidden, string dir = "")
+        public string CommandConstructor(string command)
         {
-            if (!string.IsNullOrEmpty(dir))
-            {
-                dir = $" \"{dir}\"";
-            }
-            if (output == Output.External)
-            {
-                command = $"\"{Directory.GetCurrentDirectory()}/cmd.bat\" \"{command}\"{dir}";
-            }
             command = $"/c \"{command}\"";
             return command;
         }

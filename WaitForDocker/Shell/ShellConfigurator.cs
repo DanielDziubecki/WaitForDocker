@@ -1,82 +1,52 @@
 using System;
 using System.Diagnostics;
 using System.Text;
-using WaitForDocker.Notification;
 
 namespace WaitForDocker.Shell
 {
     public sealed class ShellConfigurator
     {
-        private static IShell Shell { get; set; }
-        private static IShellOutputWriter ShellOutputWriter { get; set; }
+        private readonly ILogger _logger;
+        private static IShell _shell;
 
-        public ShellConfigurator(IShell shell, IShellOutputWriter shellOutputWriter = null)
+        public ShellConfigurator(IShell shell, ILogger logger)
         {
-            Shell = shell ?? throw new ArgumentException(nameof(shell));
-
-            ShellOutputWriter = shellOutputWriter ?? Notification.ShellOutputWriter.Default;
+            _logger = logger;
+            _shell = shell ?? throw new ArgumentException(nameof(shell));
 
             if (!OS.IsWin())
             {
-                Term("chmod +x cmd.sh");
+                Execute("chmod +x cmd.sh");
             }
         }
 
-        public Response Term(string command, Output? output = Output.Hidden, string dir = "")
+        public void Execute(string command)
         {
-            var result = new Response();
             var stderr = new StringBuilder();
             var stdout = new StringBuilder();
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = Shell.GetFileName(),
-                Arguments = Shell.CommandConstructor(command, output, dir),
+                FileName = _shell.GetFileName(),
+                Arguments = _shell.CommandConstructor(command),
                 RedirectStandardInput = false,
-                RedirectStandardOutput = (output != Output.External),
-                RedirectStandardError = (output != Output.External),
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = (output != Output.External)
+                CreateNoWindow =true
             };
-            if (!string.IsNullOrEmpty(dir) && output != Output.External)
-            {
-                startInfo.WorkingDirectory = dir;
-            }
 
+            _logger.Log("*** Compose command started executing ***");
             using (var process = Process.Start(startInfo))
             {
-                switch (output)
-                {
-                    case Output.Internal:
-                        ShellOutputWriter.StandardLine();
-
-                        while (!process.StandardOutput.EndOfStream)
-                        {
-                            var line = process.StandardOutput.ReadLine();
-                            stdout.AppendLine(line);
-                            ShellOutputWriter.StandardOutput(line);
-                        }
-
-                        while (!process.StandardError.EndOfStream)
-                        {
-                            var line = process.StandardError.ReadLine();
-                            stderr.AppendLine(line);
-                            ShellOutputWriter.StandardError(line);
-                        }
-                        break;
-                    case Output.Hidden:
-                        stdout.AppendLine(process.StandardOutput.ReadToEnd());
-                        stderr.AppendLine(process.StandardError.ReadToEnd());
-                        break;
-                }
-
                 process.WaitForExit();
-                result.Stdout = stdout.ToString();
-                result.Stderr = stderr.ToString();
-                result.Code = process.ExitCode;
+                _logger.Log("*** Process finished  ***");
+                _logger.Log($"*** Standard output: {stdout.ToString()}  ***");
+                _logger.Log($"*** Standard error: {stderr.ToString()}  ***");
+                _logger.Log($"*** Exit code: { process.ExitCode}  ***");
+
             }
 
-            return result;
         }
     }
 }

@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Sockets;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using WaitForDocker.Notification;
 
 namespace WaitForDocker
 {
     public class WaitForDocker
     {
-        public static Task Container(string dockerFileDirPath, int serviceTimeoutInSeconds = 60, IShellOutputWriter shellOutputWriter = null)
+        public static Task Container(Action<WaitForDockerConfig> funcConfiguration = null)
         {
             return Task.CompletedTask;
         }
 
-        public static Task Compose(Action<WaitForDockerConfig> funcConfiguration = null)
+        public static async Task Compose(Action<WaitForDockerConfig> funcConfiguration = null)
         {
             var config = new WaitForDockerConfig();
             funcConfiguration?.Invoke(config);
@@ -23,40 +22,36 @@ namespace WaitForDocker
             var composeJson = new JsonComposeConverter().Convert(composeYaml);
             var ports = new JsonComposeServicesPortsExtractor().ExtractPorts(composeJson);
 
+            var logger = config.Logger;
+            logger.Log("Checking is any port is already occupied before docker-compose execution..");
 
+            var futureChecks = new List<Func<Task<bool>>>();
+            foreach (var servicePort in ports)
+            {
+                Task<bool> ServiceCheck() => ServiceChecker.IsServiceUp(servicePort.Port);
+                futureChecks.Add(ServiceCheck);
+                logger.Log($"Service: {servicePort.Name} Port: {servicePort.Port} Occupied: {await ServiceCheck()}");
+            }
 
             var command = ComposeBuilder.BuildComposeCommand(config);
-            var shell = ShellConfiguratorFactory.GetShell(config.ShellOutputWriter);
-            var result = shell.Term(command);
+            var shell = ShellConfiguratorFactory.GetShell(config.Logger);
+            shell.Execute(command);
 
-            return Task.CompletedTask;
+            await Task.WhenAll(futureChecks.Select(check => check()));
         }
     }
 
-    public static class ServiceChecker
+    public class DefaultLogger : ILogger
     {
-        private const string LocalHost = "127.0.0.1";
+        private readonly StringBuilder _builder = new StringBuilder();
+        public string LogResult => _builder.ToString();
 
-        public static async Task<bool> IsServiceUp(int port, int timeoutInSeconds)
-        {
-            var client = new TcpClient();
-            var sp = new Stopwatch();
-            sp.Start();
-            while (sp.Elapsed.Seconds < timeoutInSeconds)
-            {
-                try
-                {
-                    await client.ConnectAsync(LocalHost, port);
+        public void Log(string message) => _builder.AppendLine(message);
 
-                    if (client.Connected)
-                        return client.Connected;
-                }
-                catch (Exception e)
-                {
-                    //ignore
-                }
-            }
-            return false;
-        }
+    }
+
+    public interface ILogger
+    {
+        void Log(string message);
     }
 }

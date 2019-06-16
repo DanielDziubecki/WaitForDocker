@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace WaitForDocker.Shell
+﻿namespace WaitForDocker.Shell
 {
     public static partial class ShellType
     {

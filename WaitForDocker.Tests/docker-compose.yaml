@@ -1,13 +1,6 @@
 version: "2"
 
 services:
-  start_dependencies:
-    image: dadarek/wait-for-dependencies
-    depends_on:
-      - mongo
-      - rabbitmq
-    command: rabbitmq:5672
-
   mongo:
     image: mongo
     volumes:

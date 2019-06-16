@@ -7,7 +7,7 @@ namespace WaitForDocker.Shell
     public sealed class ShellConfigurator
     {
         private readonly ILogger _logger;
-        private static IShell _shell;
+        private readonly IShell _shell;
 
         public ShellConfigurator(IShell shell, ILogger logger)
         {
@@ -20,11 +20,8 @@ namespace WaitForDocker.Shell
             }
         }
 
-        public void Execute(string command)
+        public void Execute(string command, string commandType = "")
         {
-            var stderr = new StringBuilder();
-            var stdout = new StringBuilder();
-
             var startInfo = new ProcessStartInfo
             {
                 FileName = _shell.GetFileName(),
@@ -33,20 +30,21 @@ namespace WaitForDocker.Shell
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow =true
+                CreateNoWindow = true,
+                StandardErrorEncoding = Encoding.UTF8,
+                StandardOutputEncoding = Encoding.UTF8
             };
 
-            _logger.Log("*** Compose command started executing ***");
+            _logger.Log(string.Empty);
+            _logger.Log($"Starting {commandType} command..");
             using (var process = Process.Start(startInfo))
             {
                 process.WaitForExit();
-                _logger.Log("*** Process finished  ***");
-                _logger.Log($"*** Standard output: {stdout.ToString()}  ***");
-                _logger.Log($"*** Standard error: {stderr.ToString()}  ***");
-                _logger.Log($"*** Exit code: { process.ExitCode}  ***");
-
+                _logger.Log(process.StandardOutput.ReadToEnd());
+                _logger.Log(process.StandardError.ReadToEnd());
+                _logger.Log($"Process finished with exit code: {process.ExitCode.ToString()}");
+                _logger.Log(string.Empty);
             }
-
         }
     }
 }

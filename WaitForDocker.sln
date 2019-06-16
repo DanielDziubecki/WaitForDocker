@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitForDocker", "WaitForDocker\WaitForDocker.csproj", "{A114C76B-F756-45FD-9E12-BDF6903452CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaitForDocker", "WaitForDocker\WaitForDocker.csproj", "{A114C76B-F756-45FD-9E12-BDF6903452CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitForDocker.Tests", "WaitForDocker.Tests\WaitForDocker.Tests.csproj", "{7F17BDBC-841F-49E3-8508-96849185D505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaitForDocker.Tests", "WaitForDocker.Tests\WaitForDocker.Tests.csproj", "{7F17BDBC-841F-49E3-8508-96849185D505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitForDocker.Integrations.Xunit", "WaitForDocker.Integrations\WaitForDocker.Integrations.Xunit.csproj", "{1DB03104-35D5-4839-A3D7-F41A3504A426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7F17BDBC-841F-49E3-8508-96849185D505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F17BDBC-841F-49E3-8508-96849185D505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F17BDBC-841F-49E3-8508-96849185D505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB03104-35D5-4839-A3D7-F41A3504A426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB03104-35D5-4839-A3D7-F41A3504A426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB03104-35D5-4839-A3D7-F41A3504A426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB03104-35D5-4839-A3D7-F41A3504A426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

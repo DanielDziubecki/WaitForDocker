@@ -2,7 +2,7 @@
 
 namespace WaitForDocker
 {
-    public static class Helpers
+    public static class DockerFilesReader
     {
         public static string ReadComposeContent(string dockerComposeDirPath, string composeFileName)
         {
@@ -12,7 +12,7 @@ namespace WaitForDocker
                 filePath = Path.Combine(dockerComposeDirPath);
             }
 
-            filePath = Path.Combine(filePath, !string.IsNullOrWhiteSpace(composeFileName) ? composeFileName : "docker-compose.yaml");
+            filePath = Path.Combine(filePath, !string.IsNullOrWhiteSpace(composeFileName) ? composeFileName : DockerConsts.DefaultDockerComposeFile);
 
             var compose = File.ReadAllText(filePath);
             return compose;

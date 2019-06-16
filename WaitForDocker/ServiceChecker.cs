@@ -9,30 +9,30 @@ namespace WaitForDocker
     {
         private const string LocalHost = "127.0.0.1";
 
-        public static async Task<bool> IsServiceUp(int port, int? timeoutInSeconds = null)
+        public static async Task<bool> IsServiceUp(ServicePort servicePort, int? timeoutInSeconds = null)
         {
-            return timeoutInSeconds.HasValue ? await CheckWithTimeout(port, timeoutInSeconds.Value) : await IsAvailable(port);
+            return timeoutInSeconds.HasValue ? await CheckWithTimeout(servicePort, timeoutInSeconds.Value) : await IsAvailable(servicePort);
         }
 
-        private static async Task<bool> CheckWithTimeout(int port, int timeoutInSeconds)
+        private static async Task<bool> CheckWithTimeout(ServicePort servicePort, int timeoutInSeconds)
         {
             var sp = new Stopwatch();
             sp.Start();
             while (sp.Elapsed.Seconds < timeoutInSeconds)
             {
-                var isAvailable = await IsAvailable(port);
+                var isAvailable = await IsAvailable(servicePort);
                 if (isAvailable)
                     return true;
             }
             return false;
         }
 
-        private static async Task<bool> IsAvailable(int port)
+        private static async Task<bool> IsAvailable(ServicePort servicePort)
         {
             var client = new TcpClient();
             try
             {
-                await client.ConnectAsync(LocalHost, port);
+                await client.ConnectAsync(LocalHost, servicePort.Port);
 
                 if (client.Connected)
                     return client.Connected;

@@ -14,11 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WaitForDocker.Integrations\WaitForDocker.Integrations.Xunit.csproj" />
     <ProjectReference Include="..\WaitForDocker\WaitForDocker.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="docker-compose-infrastructure.yaml">
+    <None Update="docker-compose.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

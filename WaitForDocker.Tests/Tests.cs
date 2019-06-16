@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WaitForDocker.Integrations;
+using WaitForDocker.Integrations.Xunit;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace WaitForDocker.Tests
 {
     public class Tests
     {
-        [Fact]
-        public async Task Test()
+        private readonly ITestOutputHelper output;
+
+        public Tests(ITestOutputHelper output)
         {
-            await WaitForDocker.Compose(config => {
-                config.ComposeFileName = "docker-compose-infrastructure.yaml";
-            });
+            this.output = output;
+            WaitForDocker.Compose(config => {
+                config.Logger = new XunitLogger(output);
+            }).GetAwaiter().GetResult();
+        }
+
+        [Fact]
+        public async Task IntegrationTest()
+        {
+            await WaitForDocker.ComposeKill(config => { config.Logger = new XunitLogger(output); });
         }
     }
+
+   
 }

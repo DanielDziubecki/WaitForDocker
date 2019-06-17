@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WaitForDocker.ComposeProcessing;
+using WaitForDocker.Config;
+using WaitForDocker.Logger;
+using WaitForDocker.Shell;
 
 namespace WaitForDocker
 {
@@ -46,20 +50,18 @@ namespace WaitForDocker
 
         private static async Task PreComposeCheck(ILogger logger, ServicePort servicePort)
         {
-            var isServiceUp = await ServiceChecker.IsServiceUp(servicePort);
+            var isServiceUp = await ServiceChecker.ServiceChecker.IsServiceUp(servicePort);
             logger.Log((isServiceUp ? "Warning! " : string.Empty) + $"service {servicePort.Name} on port: {servicePort.Port} was " + (isServiceUp ? string.Empty : "not ") + "occupied before docker compose execution");
         }
 
         private static async Task PostComposeCheck(ServicePort servicePort, WaitForDockerComposeConfig composeConfig, ILogger logger)
         {
-            var isServiceUp = await ServiceChecker.IsServiceUp(servicePort, composeConfig.ServiceTimeoutInSeconds);
+            var isServiceUp = await ServiceChecker.ServiceChecker.IsServiceUp(servicePort, composeConfig.ServiceTimeoutInSeconds);
             if (!isServiceUp && composeConfig.ThrowOnServiceUnavailability)
                 throw new WaitForDockerException($"Service: {servicePort.Name} on port {servicePort.Port} was unreachable after {composeConfig.ServiceTimeoutInSeconds} seconds.");
 
             var frontText = isServiceUp ? "Success!" : "Error!";
             logger.Log($"{frontText} service {servicePort.Name} on port {servicePort.Port} is " + (isServiceUp ? "ready" : "unreachable"));
         }
-
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WaitForDocker
+namespace WaitForDocker.ComposeProcessing
 {
     public interface IComposeServicesPortsExtractor<in T>
     {

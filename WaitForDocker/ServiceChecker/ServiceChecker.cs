@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using WaitForDocker.ComposeProcessing;
 
-namespace WaitForDocker
+namespace WaitForDocker.ServiceChecker
 {
     public static class ServiceChecker
     {
@@ -38,7 +39,7 @@ namespace WaitForDocker
                     return client.Connected;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //ignore
             }

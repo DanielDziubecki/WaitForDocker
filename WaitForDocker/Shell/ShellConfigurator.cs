@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {

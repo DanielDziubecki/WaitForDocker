@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using WaitForDocker.Shell;
+using WaitForDocker.Logger;
 
-namespace WaitForDocker
+namespace WaitForDocker.Shell
 {
     public static class ShellConfiguratorFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace WaitForDocker
+﻿namespace WaitForDocker.Logger
 {
     public interface ILogger
     {

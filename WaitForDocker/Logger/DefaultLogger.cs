@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace WaitForDocker
+namespace WaitForDocker.Logger
 {
     public class DefaultLogger : ILogger
     {

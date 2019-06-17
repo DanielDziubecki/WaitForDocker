@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
-namespace WaitForDocker
+namespace WaitForDocker.ComposeProcessing
 {
     public class JsonComposeConverter : IComposeConverter<string>
     {

@@ -1,4 +1,6 @@
-﻿namespace WaitForDocker
+﻿using WaitForDocker.Logger;
+
+namespace WaitForDocker.Config
 {
     public class WaitForDockerComposeConfig
     {
@@ -8,11 +10,5 @@
         public string[] ComposeParams { get; set; } = {};
         public ILogger Logger { get; set; } = new DefaultLogger();
         public bool ThrowOnServiceUnavailability { get; set; } = true;
-    }
-
-    public class WaitForDockerComposeKillConfig
-    {
-        public string DockerComposeDirPath { get; set; }
-        public ILogger Logger { get; set; } = new DefaultLogger();
     }
 }

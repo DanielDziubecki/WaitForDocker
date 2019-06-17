@@ -1,4 +1,4 @@
-﻿namespace WaitForDocker
+﻿namespace WaitForDocker.ComposeProcessing
 {
     public interface IComposeConverter<out T>
     {

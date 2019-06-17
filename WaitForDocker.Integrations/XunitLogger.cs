@@ -1,4 +1,5 @@
-﻿using Xunit.Abstractions;
+﻿using WaitForDocker.Logger;
+using Xunit.Abstractions;
 
 namespace WaitForDocker.Integrations.Xunit
 {

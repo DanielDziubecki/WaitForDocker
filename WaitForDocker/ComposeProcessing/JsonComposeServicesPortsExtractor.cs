@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace WaitForDocker
+namespace WaitForDocker.ComposeProcessing
 {
     public class JsonComposeServicesPortsExtractor : IComposeServicesPortsExtractor<string>
     {

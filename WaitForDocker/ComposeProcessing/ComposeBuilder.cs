@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using WaitForDocker.Config;
 
-namespace WaitForDocker
+namespace WaitForDocker.ComposeProcessing
 {
     public static class ComposeBuilder
     {

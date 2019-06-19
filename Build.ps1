@@ -29,5 +29,5 @@ exec { & dotnet restore }
 exec { & dotnet build  .\WaitForDocker\WaitForDocker.csproj -c Release}
 
 $revision = "1.0.$($env:APPVEYOR_BUILD_NUMBER)"
-
+echo $revision
 exec { & dotnet pack .\WaitForDocker\WaitForDocker.csproj -c Release -o .\artifacts --version-suffix=$revision }

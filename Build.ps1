@@ -28,4 +28,4 @@ exec { & dotnet restore }
 
 exec { & dotnet build  .\WaitForDocker\WaitForDocker.csproj -c Release}
 
-exec { & dotnet pack .\WaitForDocker\WaitForDocker.csproj -c Release -o .\artifacts --version-suffix=$env:APPVEYOR_BUILD_NUMBER }
+exec { & dotnet pack .\WaitForDocker\WaitForDocker.csproj -c Release -o .\artifacts --version-suffix="beta" }

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
       <Authors>Daniel Dziubecki</Authors>
+	  <VersionPrefix>1.0.1</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
@@ -12,3 +13,6 @@
   </ItemGroup>
 
 </Project>
+
+
+

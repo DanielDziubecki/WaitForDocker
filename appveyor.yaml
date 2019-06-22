@@ -3,6 +3,16 @@ pull_requests:
   do_not_increment_build_number: true
 - 
   branches:
+      only:
+      - develop
+  image: Visual Studio 2017
+  before_build:
+    - cmd: dotnet --version
+    - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
+  build_script:
+     - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+- 
+  branches:
     only:
     - master
   nuget:
@@ -30,13 +40,3 @@ pull_requests:
       appveyor_repo_tag: true
 
 #develop
-- 
-  branches:
-      only:
-      - develop
-  image: Visual Studio 2017
-  before_build:
-    - cmd: dotnet --version
-    - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
-  build_script:
-     - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 

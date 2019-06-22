@@ -39,4 +39,4 @@ pull_requests:
       branch: master
       appveyor_repo_tag: true
 
-#develop
+#develops

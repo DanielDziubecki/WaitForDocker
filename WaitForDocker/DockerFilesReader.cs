@@ -2,7 +2,7 @@
 
 namespace WaitForDocker
 {
-    public static class DockerFilesReader
+    internal static class DockerFilesReader
     {
         public static string ReadComposeContent(string dockerComposeDirPath, string composeFileName)
         {

@@ -4,7 +4,7 @@ using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {
-    public static class ShellConfiguratorFactory
+    internal static class ShellConfiguratorFactory
     {
         public static ShellConfigurator GetShell(ILogger logger)
         {

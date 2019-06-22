@@ -6,11 +6,11 @@ using WaitForDocker.ComposeProcessing;
 
 namespace WaitForDocker.ServiceChecker
 {
-    public static class ServiceChecker
+    internal static class ServiceChecker
     {
         private const string LocalHost = "127.0.0.1";
 
-        public static async Task<bool> IsServiceUp(ServicePort servicePort, int? timeoutInSeconds = null)
+        internal static async Task<bool> IsServiceUp(ServicePort servicePort, int? timeoutInSeconds = null)
         {
             return timeoutInSeconds.HasValue ? await CheckWithTimeout(servicePort, timeoutInSeconds.Value) : await IsAvailable(servicePort);
         }

@@ -1,6 +1,6 @@
 ﻿namespace WaitForDocker.ComposeProcessing
 {
-    public class ServicePort
+    internal class ServicePort
     {
         public ServicePort(string name, int port)
         {

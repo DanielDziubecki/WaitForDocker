@@ -6,10 +6,10 @@ namespace WaitForDocker.Logger
 {
     public class DefaultLogger : ILogger
     {
-        private readonly ConcurrentBag<string> logs = new ConcurrentBag<string>();
-        public string LogResult => string.Join(Environment.NewLine, logs.Reverse());
+        private readonly ConcurrentQueue<string> logs = new ConcurrentQueue<string>();
+        public string LogResult => string.Join(Environment.NewLine, logs);
 
-        public void Log(string message) => logs.Add(message);
+        public void Log(string message) => logs.Enqueue(message);
 
     }
 }

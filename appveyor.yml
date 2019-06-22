@@ -1,42 +1,41 @@
 version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
-- 
-  branches:
-    only:
-    - master
-  nuget:
-    disable_publish_on_pr: true
-  build_script:
-  - ps: .\Build.ps1
-  test: off
-  artifacts:
-  - path: .\artifacts\**\*.nupkg
-    name: NuGet
-  deploy:
-  - provider: NuGet
-    server: https://www.myget.org/F/danieldziubecki/api/v2
-    api_key:
-      secure: zpUfg4cLMzhZOGWalOMFGSvMiNebnY6XgF7iJT39QjEZMFUolo60i2XP41QVHEGc
-    skip_symbols: true
-    on:
-      branch: master
-  - provider: NuGet
-    name: production
-    api_key:
-      secure: FqeZ8mj1ery9QHV89WTuAJN4mtqz5iWFJ/kxwF3LKa6f3if0JmAff5lfmtdiv7x4
-    on:
-      branch: master
-      appveyor_repo_tag: true
 
+branches:
+  only:
+  - master
+nuget:
+  disable_publish_on_pr: true
+build_script:
+- ps: .\Build.ps1
+test: off
+artifacts:
+- path: .\artifacts\**\*.nupkg
+  name: NuGet
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/danieldziubecki/api/v2
+  api_key:
+    secure: zpUfg4cLMzhZOGWalOMFGSvMiNebnY6XgF7iJT39QjEZMFUolo60i2XP41QVHEGc
+  skip_symbols: true
+  on:
+    branch: master
+- provider: NuGet
+  name: production
+  api_key:
+    secure: FqeZ8mj1ery9QHV89WTuAJN4mtqz5iWFJ/kxwF3LKa6f3if0JmAff5lfmtdiv7x4
+  on:
+    branch: master
+    appveyor_repo_tag: true
+    
 #develop
-- 
-  branches:
-      only:
-      - develop
-  image: Visual Studio 2017
-  before_build:
-    - cmd: dotnet --version
-    - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
-  build_script:
-     - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+branches:
+    only:
+    - develop
+image: Visual Studio 2017
+before_build:
+  - cmd: dotnet --version
+  - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
+build_script:
+   - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 

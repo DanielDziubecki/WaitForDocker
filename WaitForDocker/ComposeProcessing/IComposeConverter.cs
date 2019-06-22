@@ -1,6 +1,6 @@
 ﻿namespace WaitForDocker.ComposeProcessing
 {
-    public interface IComposeConverter<out T>
+    internal interface IComposeConverter<out T>
     {
         T Convert(string yamlCompose);
     }

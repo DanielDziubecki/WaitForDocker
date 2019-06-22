@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WaitForDocker.ComposeProcessing
 {
-    public class JsonComposeServicesPortsExtractor : IComposeServicesPortsExtractor<string>
+    internal class JsonComposeServicesPortsExtractor : IComposeServicesPortsExtractor<string>
     {
         private const string ComposeServices = "services";
         private const string ComposePorts = "ports";

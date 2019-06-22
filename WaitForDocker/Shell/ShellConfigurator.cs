@@ -5,7 +5,7 @@ using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {
-    public sealed class ShellConfigurator
+    internal sealed class ShellConfigurator
     {
         private readonly ILogger _logger;
         private readonly IShell _shell;

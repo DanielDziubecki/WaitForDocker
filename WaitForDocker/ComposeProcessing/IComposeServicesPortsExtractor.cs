@@ -2,7 +2,7 @@
 
 namespace WaitForDocker.ComposeProcessing
 {
-    public interface IComposeServicesPortsExtractor<in T>
+    internal interface IComposeServicesPortsExtractor<in T>
     {
         IEnumerable<ServicePort> ExtractPorts(T compose);
     }

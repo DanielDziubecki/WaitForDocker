@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using WaitForDocker.Integrations.Xunit;
+using WaitForDocker.Logger;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +13,8 @@ namespace WaitForDocker.Tests
         public Tests(ITestOutputHelper output)
         {
             this.output = output;
-            WaitForDocker.Compose(config => { config.Logger = new XunitLogger(output); }).GetAwaiter().GetResult();
+            ILogger logger;
+            WaitForDocker.Compose(config => { logger = config.Logger; }).GetAwaiter().GetResult();
         }
 
         [Fact]

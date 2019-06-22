@@ -1,11 +1,10 @@
-
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
 -
   branches:
    only:
    - master
-  version: '{build}'
-  pull_requests:
-    do_not_increment_build_number: true
   nuget:
     disable_publish_on_pr: true
   build_script:
@@ -36,9 +35,6 @@
   branches:
       only:
       - develop
-  version: '{build}'
-  pull_requests:
-    do_not_increment_build_number: true
   image: Visual Studio 2017
   before_build:
     - cmd: dotnet --version

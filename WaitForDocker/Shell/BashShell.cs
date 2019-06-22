@@ -1,11 +1,11 @@
 ﻿namespace WaitForDocker.Shell
 {
-    public static partial class ShellType
+    internal static partial class ShellType
     {
         public static IShell Bash => new BashShell();
     }
 
-    public sealed class BashShell : IShell
+    internal sealed class BashShell : IShell
     {
         public string GetFileName()
         {

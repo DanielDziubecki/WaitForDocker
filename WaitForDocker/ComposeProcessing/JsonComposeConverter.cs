@@ -3,7 +3,7 @@ using YamlDotNet.Serialization;
 
 namespace WaitForDocker.ComposeProcessing
 {
-    public class JsonComposeConverter : IComposeConverter<string>
+    internal class JsonComposeConverter : IComposeConverter<string>
     {
         public string Convert(string yamlCompose)
         {

@@ -1,6 +1,6 @@
 ﻿namespace WaitForDocker
 {
-    public static class DockerConsts
+    internal static class DockerConsts
     {
         public const string DockerCompose = "docker-compose";
         public const string DockerComposeKill = "docker-kill";

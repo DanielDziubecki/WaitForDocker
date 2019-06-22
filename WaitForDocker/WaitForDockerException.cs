@@ -2,7 +2,7 @@
 
 namespace WaitForDocker
 {
-    public class WaitForDockerException : Exception
+    internal class WaitForDockerException : Exception
     {
         public WaitForDockerException(string message) : base(message)
         {

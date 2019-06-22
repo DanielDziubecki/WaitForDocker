@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+      <Authors>Daniel Dziubecki</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 

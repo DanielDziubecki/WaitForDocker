@@ -39,7 +39,9 @@
   version: '{build}'
   pull_requests:
     do_not_increment_build_number: true
-  image: ubuntu
+  image: Visual Studio 2017
+  install:
+  - cinst docker-compose
   before_build:
     - cmd: docker-compose version
     - cmd: dotnet --version

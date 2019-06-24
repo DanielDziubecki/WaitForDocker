@@ -49,5 +49,4 @@
   build_script:
     - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
   after_build:
-    - ps: get-netnat remove-netnat
     - cmd: dotnet test .\WaitForDocker.Tests

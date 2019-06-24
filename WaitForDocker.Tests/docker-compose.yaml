@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3"
 
 services:
   mongo:
@@ -18,3 +18,7 @@ services:
     image: redis
     ports:
       - '6379:6379'
+networks:
+  default:
+    external:
+      name: nat

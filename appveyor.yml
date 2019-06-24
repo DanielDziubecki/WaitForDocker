@@ -43,6 +43,7 @@
   install:
   - cinst docker-compose
   before_build:
+    - cmd: docker-compose version
     - cmd: dotnet --version
     - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
   build_script:

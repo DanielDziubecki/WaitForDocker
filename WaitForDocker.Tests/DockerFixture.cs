@@ -1,22 +1,20 @@
 ﻿using System;
-using WaitForDocker.Integrations.Xunit;
-using Xunit.Abstractions;
 
 namespace WaitForDocker.Tests
 {
     public class DockerFixture : IDisposable
     {
-        private readonly XunitMessageSinkLogger xunitLogger;
+        private readonly ConsoleOutputLogger consoleOutputLogger;
 
-        public DockerFixture(IMessageSink output)
+        public DockerFixture()
         {
-            xunitLogger = new XunitMessageSinkLogger(output);
-            WaitForDocker.Compose(config => config.Logger = xunitLogger).GetAwaiter().GetResult();
+            consoleOutputLogger = new ConsoleOutputLogger();
+            WaitForDocker.Compose(config => config.Logger = consoleOutputLogger).GetAwaiter().GetResult();
         }
 
         public void Dispose()
         {
-            WaitForDocker.ComposeKill(config => config.Logger = xunitLogger).GetAwaiter().GetResult();
+            WaitForDocker.ComposeKill(config => config.Logger = consoleOutputLogger).GetAwaiter().GetResult();
         }
     }
 }

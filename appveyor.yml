@@ -44,4 +44,6 @@
     - cmd: dotnet --version
     - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
   build_script:
-     - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+    - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+  after_build:
+    - cmd: dotnet test .\WaitForDocker.Tests

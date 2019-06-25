@@ -48,6 +48,6 @@
     - sh: dotnet --version
     - sh: dotnet restore ./WaitForDocker/WaitForDocker.csproj --verbosity m
   build_script:
-    - sh: dotnet build ./WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+    - sh: dotnet build ./WaitForDocker/WaitForDocker.csproj -c Release --verbosity m 
   after_build:
     - sh: dotnet test ./WaitForDocker.Tests

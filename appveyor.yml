@@ -39,14 +39,13 @@
   version: '{build}'
   pull_requests:
     do_not_increment_build_number: true
-  image: Visual Studio 2017
+  image: Ubuntu
   install:
-  - cinst docker-compose
   before_build:
-    - cmd: docker-compose version
-    - cmd: dotnet --version
-    - cmd: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
+    - sh: docker-compose version
+    - sh: dotnet --version
+    - sh: dotnet restore .\WaitForDocker\WaitForDocker.csproj --verbosity m
   build_script:
-    - cmd: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
+    - sh: dotnet build .\WaitForDocker\WaitForDocker.csproj -c Release --verbosity m 
   after_build:
-    - cmd: dotnet test .\WaitForDocker.Tests
+    - sh: dotnet test .\WaitForDocker.Tests

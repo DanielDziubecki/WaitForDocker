@@ -4,9 +4,9 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using WaitForDocker.ComposeProcessing;
 
-namespace WaitForDocker.ServiceChecker
+namespace WaitForDocker.HealthCheckers
 {
-    internal static class ServiceChecker
+    internal static class TcpHealthChecker
     {
         private const string LocalHost = "127.0.0.1";
 

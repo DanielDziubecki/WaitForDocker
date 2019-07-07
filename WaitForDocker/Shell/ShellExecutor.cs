@@ -5,12 +5,12 @@ using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {
-    internal sealed class ShellConfigurator
+    internal sealed class ShellExecutor
     {
         private readonly ILogger _logger;
         private readonly IShell _shell;
 
-        public ShellConfigurator(IShell shell, ILogger logger)
+        public ShellExecutor(IShell shell, ILogger logger)
         {
             _logger = logger;
             _shell = shell ?? throw new ArgumentException(nameof(shell));

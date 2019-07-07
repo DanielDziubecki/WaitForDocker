@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WaitForDocker.ComposeProcessing;
 using WaitForDocker.Config;
+using WaitForDocker.HealthCheckers;
 using WaitForDocker.Logger;
 using WaitForDocker.Shell;
 
@@ -11,11 +12,9 @@ namespace WaitForDocker
 {
     internal class WaitForCompose
     {
-        public static async Task Wait(Action<WaitForDockerComposeConfig> funcConfiguration = null)
+        public static async Task Wait(WaitForDockerComposeConfig config)
         {
-            var config = new WaitForDockerComposeConfig();
-            funcConfiguration?.Invoke(config);
-
+            config = config ?? new WaitForDockerComposeConfig();
             var composeYaml = DockerFilesReader.ReadComposeContent(config.DockerComposeDirPath, config.ComposeFileName);
             var composeJson = new JsonComposeConverter().Convert(composeYaml);
             var ports = new JsonComposeServicesPortsExtractor().ExtractPorts(composeJson);
@@ -34,29 +33,28 @@ namespace WaitForDocker
             await Task.WhenAll(preComposeChecks);
 
             var composeCommand = ComposeBuilder.BuildComposeCommand(config);
-            ShellConfiguratorFactory.GetShell(config.Logger).Execute(composeCommand, DockerConsts.DockerCompose);
+            ShellExecutorFactory.GetShellExecutor(config.Logger).Execute(composeCommand, DockerConsts.DockerCompose);
 
             await Task.WhenAll(postComposeChecks.Select(check => check()));
         }
 
-        public static Task Kill(Action<WaitForDockerComposeKillConfig> funcConfiguration = null)
+        public static Task Kill(WaitForDockerComposeKillConfig config)
         {
-            var config = new WaitForDockerComposeKillConfig();
-            funcConfiguration?.Invoke(config);
+            config = config ?? new WaitForDockerComposeKillConfig();
             var killCommand = ComposeBuilder.BuildComposeKillCommand(config);
-            ShellConfiguratorFactory.GetShell(config.Logger).Execute(killCommand,DockerConsts.DockerComposeKill);
+            ShellExecutorFactory.GetShellExecutor(config.Logger).Execute(killCommand,DockerConsts.DockerComposeKill);
             return Task.CompletedTask;
         }
 
         private static async Task PreComposeCheck(ILogger logger, ServicePort servicePort)
         {
-            var isServiceUp = await ServiceChecker.ServiceChecker.IsServiceUp(servicePort);
+            var isServiceUp = await TcpHealthChecker.IsServiceUp(servicePort);
             logger.Log((isServiceUp ? "Warning! " : string.Empty) + $"service {servicePort.Name} on port: {servicePort.Port} was " + (isServiceUp ? string.Empty : "not ") + "occupied before docker compose execution");
         }
 
         private static async Task PostComposeCheck(ServicePort servicePort, WaitForDockerComposeConfig composeConfig, ILogger logger)
         {
-            var isServiceUp = await ServiceChecker.ServiceChecker.IsServiceUp(servicePort, composeConfig.ServiceTimeoutInSeconds);
+            var isServiceUp = await TcpHealthChecker.IsServiceUp(servicePort, composeConfig.ServiceTimeoutInSeconds);
             if (!isServiceUp && composeConfig.ThrowOnServiceUnavailability)
                 throw new WaitForDockerException($"Service: {servicePort.Name} on port {servicePort.Port} was unreachable after {composeConfig.ServiceTimeoutInSeconds} seconds.");
 

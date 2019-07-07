@@ -6,7 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+    <PackageReference Include="RawRabbit" Version="1.10.4" />
+    <PackageReference Include="RawRabbit.Extensions" Version="1.10.2" />
+    <PackageReference Include="RawRabbit.vNext" Version="1.10.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
     <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -20,6 +29,9 @@
 
   <ItemGroup>
     <None Update="docker-compose.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="xunit.runner.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

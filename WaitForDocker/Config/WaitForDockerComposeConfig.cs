@@ -1,14 +1,21 @@
-﻿using WaitForDocker.Logger;
+﻿using System.Collections.Generic;
+using WaitForDocker.HealthCheckers;
+using WaitForDocker.Logger;
 
 namespace WaitForDocker.Config
 {
     public class WaitForDockerComposeConfig
     {
-        public string DockerComposeDirPath { get; set; }
-        public string ComposeFileName { get; set; } = DockerConsts.DefaultDockerComposeFile;
-        public int ServiceTimeoutInSeconds { get; set; } = 10;
-        public string[] ComposeParams { get; set; } = {};
-        public ILogger Logger { get; set; } = new DefaultLogger();
-        public bool ThrowOnServiceUnavailability { get; set; } = true;
+        internal WaitForDockerComposeConfig()
+        {
+            
+        }
+        internal string DockerComposeDirPath { get; set; }
+        internal string ComposeFileName { get; set; } = DockerConsts.DefaultDockerComposeFile;
+        internal int ServiceTimeoutInSeconds { get; set; } = 10;
+        internal string[] ComposeParams { get; set; } = {};
+        internal ILogger Logger { get; set; } = new DefaultLogger();
+        internal bool ThrowOnServiceUnavailability { get; set; } = true;
+        internal List<DockerServiceHealthCheck> HealthChecks { get; set; } = new List<DockerServiceHealthCheck>();
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {
-    internal static class ShellConfiguratorFactory
+    internal static class ShellFactory
     {
-        public static ShellConfigurator GetShell(ILogger logger)
+        public static IShell GetShell()
         {
             IShell shell;
             var osPlatform = OS.GetCurrent();
@@ -24,7 +23,7 @@ namespace WaitForDocker.Shell
                 throw new NotSupportedException("Not supported os type");
             }
 
-            return new ShellConfigurator(shell, logger);
+            return shell;
         }
     }
 }

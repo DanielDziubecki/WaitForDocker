@@ -4,7 +4,7 @@ namespace WaitForDocker.Config
 {
     public class WaitForDockerComposeKillConfig
     {
-        public string DockerComposeDirPath { get; set; }
-        public ILogger Logger { get; set; } = new DefaultLogger();
+        internal string DockerComposeDirPath { get; set; }
+        internal ILogger Logger { get; set; } = new DefaultLogger();
     }
 }

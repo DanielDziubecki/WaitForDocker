@@ -12,7 +12,7 @@
   - ps: .\Build.ps1
   test: off
   artifacts:
-  - path: .\artifacts\**\*.nupkg
+  - path: .\WaitForDocker\artifacts\*.nupkg
     name: NuGet
   deploy:
   - provider: NuGet

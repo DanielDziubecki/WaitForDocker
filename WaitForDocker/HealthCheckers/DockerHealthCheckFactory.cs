@@ -18,7 +18,7 @@ namespace WaitForDocker.HealthCheckers
             => new HttpHealthCheck(serviceName,url,config.Logger,timeoutInSeconds,portOfDistinction);
 
         public DockerHealthChecker WithCmd(string serviceName, string command, int timeoutInSeconds = DockerConsts.DockerServiceCheckTimeout, int? portOfDistinction = null)
-            => new DockerCommandHealthCheck(serviceName, config.DockerComposeProjectName, timeoutInSeconds, command, portOfDistinction, config.Logger);
+            => new DockerCommandHealthCheck(serviceName, command, timeoutInSeconds, config.DockerComposeProjectName, portOfDistinction, config.Logger);
 
         public DockerHealthChecker WithCustom(Func<ILogger, DockerHealthChecker> func)
             => func(config.Logger);

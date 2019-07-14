@@ -12,11 +12,12 @@ namespace WaitForDocker
         public static async Task Wait(WaitForDockerConfig config)
         {
             config = config ?? new WaitForDockerConfig();
+            var logger = config.Logger;
+            logger.Log("Wait for docker has been started..");
             var composeYaml = DockerFilesReader.ReadComposeContent(config.DockerComposeDirPath, config.ComposeFileName);
             var composeJson = new JsonComposeConverter().Convert(composeYaml);
             var servicePorts = new JsonComposeServicesPortsExtractor().ExtractServicePorts(composeJson).ToArray();
 
-            var logger = config.Logger;
             logger.Log($"Checking is any port is already occupied before {DockerConsts.DockerCompose} execution..");
             await DockerHealthCheckRunner.RunPreComposeHealthChecks(servicePorts, config.Logger);
 
@@ -26,6 +27,7 @@ namespace WaitForDocker
 
             await DockerHealthCheckRunner.RunPostComposeHealthChecks(config.HealthCheckers);
             logger.Log("All health checks returns success.");
+            logger.Log("Wait for docker has been finished..");
         }
     }
 }

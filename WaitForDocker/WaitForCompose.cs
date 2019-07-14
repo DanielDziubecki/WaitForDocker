@@ -27,7 +27,5 @@ namespace WaitForDocker
             await DockerHealthCheckRunner.RunPostComposeHealthChecks(config.HealthCheckers);
             logger.Log("All health checks returns success.");
         }
-
-      
     }
 }

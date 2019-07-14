@@ -11,8 +11,8 @@ namespace WaitForDocker.HealthCheckers
         private readonly Uri url;
         private readonly HttpClient client;
 
-        public HttpHealthCheck(string serviceName, int timeoutInSeconds, Uri url, int? portOfDistinction, ILogger logger) :
-            base(serviceName, timeoutInSeconds, portOfDistinction, logger)
+        public HttpHealthCheck(string serviceName, Uri url, ILogger logger, int timeoutInSeconds, int? portOfDistinction) :
+            base(serviceName, logger, timeoutInSeconds, portOfDistinction)
         {
             this.url = url;
             client = new HttpClient();
@@ -36,7 +36,7 @@ namespace WaitForDocker.HealthCheckers
                         Logger.Log($"HTTP health check of service {ServiceName} returns success status code");
                         return true;
                     }
-                        
+
 
                     sp.Stop();
                     await Task.Delay(300);

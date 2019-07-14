@@ -11,7 +11,7 @@ namespace WaitForDocker.HealthCheckers
         protected ILogger Logger { get; }
 
 
-        protected DockerHealthChecker(string serviceName, int timeoutInSeconds, int? portOfDistinction, ILogger logger)
+        protected DockerHealthChecker(string serviceName, ILogger logger ,int timeoutInSeconds, int? portOfDistinction = null )
         {
             ServiceName = serviceName;
             Logger = logger;

@@ -13,10 +13,10 @@ namespace WaitForDocker.HealthCheckers
         private readonly string composeProjectName;
         private readonly string command;
         private readonly IShell shell;
-        private const int SuccessExitCode = 0; 
+        private const int SuccessExitCode = 0;
 
-        public DockerCommandHealthCheck(string serviceName, string composeProjectName,int timeoutInSeconds,string command, int? portOfDistinction, ILogger logger) : 
-            base(serviceName, timeoutInSeconds, portOfDistinction, logger)
+        public DockerCommandHealthCheck(string serviceName, string command, int timeoutInSeconds, string composeProjectName, int? portOfDistinction, ILogger logger) :
+            base(serviceName, logger, timeoutInSeconds, portOfDistinction)
         {
             this.composeProjectName = composeProjectName;
             this.command = command;
@@ -25,7 +25,7 @@ namespace WaitForDocker.HealthCheckers
 
         public override async Task<bool> IsHealthy()
         {
-            var fullDockerCommand = DockerCommandBuilder.BuildDockerExecCommand(composeProjectName,ServiceName,command);
+            var fullDockerCommand = DockerCommandBuilder.BuildDockerExecCommand(composeProjectName, ServiceName, command);
             Logger.Log($"Command health check of {ServiceName} with command {fullDockerCommand} has been started.");
             var startInfo = GetProcessStartInfo(fullDockerCommand);
             var sp = new Stopwatch();
@@ -51,9 +51,9 @@ namespace WaitForDocker.HealthCheckers
                         Logger.Log($"Command health check of {ServiceName} return success exit code {processExitCode.ToString()}");
                         return true;
                     }
-                        
+
                 }
-                
+
                 sp.Stop();
                 await Task.Delay(100);
                 attempts++;
@@ -82,6 +82,6 @@ namespace WaitForDocker.HealthCheckers
             return startInfo;
         }
 
-               
+
     }
 }

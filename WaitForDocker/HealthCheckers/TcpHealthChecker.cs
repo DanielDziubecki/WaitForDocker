@@ -8,8 +8,8 @@ namespace WaitForDocker.HealthCheckers
     {
         private readonly int servicePort;
        
-        public TcpHealthChecker(int servicePort, int timeoutInSeconds,string serviceName, int? portOfDistinction, ILogger logger) : 
-            base(serviceName, timeoutInSeconds, portOfDistinction, logger)
+        public TcpHealthChecker(string serviceName,int servicePort, ILogger logger, int timeoutInSeconds, int? portOfDistinction) : 
+            base(serviceName, logger, timeoutInSeconds, portOfDistinction)
         {
             this.servicePort = servicePort;
         }

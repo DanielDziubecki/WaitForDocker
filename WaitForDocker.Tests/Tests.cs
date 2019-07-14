@@ -4,12 +4,19 @@ using RawRabbit.Configuration;
 using RawRabbit.vNext;
 using StackExchange.Redis;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace WaitForDocker.Tests
 {
     [Collection(XunitConstants.DockerCollection)]
     public class Tests
     {
+        private readonly ITestOutputHelper helper;
+
+        public Tests(ITestOutputHelper helper)
+        {
+            this.helper = helper;
+        }
         [Fact]
         public async Task IntegrationTest()
         {
@@ -22,14 +29,15 @@ namespace WaitForDocker.Tests
             await Task.WhenAll(tasks);
         }
 
-        private static async Task AddToRedis()
+        private async Task AddToRedis()
         {
             var redis = ConnectionMultiplexer.Connect("localhost");
             var db = redis.GetDatabase();
             await db.StringSetAsync("myKey", "123");
+            helper.WriteLine("Redis key added");
         }
 
-        private static async Task PublishToRabbit()
+        private async Task PublishToRabbit()
         {
             var config = new RawRabbitConfiguration
             {
@@ -41,14 +49,16 @@ namespace WaitForDocker.Tests
             };
             var client = BusClientFactory.CreateDefault(config);
             await client.PublishAsync(new TestClass { Test = 1 });
+            helper.WriteLine("Rabbitmq message published");
         }
 
-        private static async Task AddToMongoCollection()
+        private async Task AddToMongoCollection()
         {
             var mongoClient = new MongoDB.Driver.MongoClient("mongodb://localhost:27017");
             var db = mongoClient.GetDatabase("IntegrationTest");
             var col = db.GetCollection<TestClass>("TestClass");
             await col.InsertOneAsync(new TestClass { Test = 1 });
+            helper.WriteLine("Mongodb document inserted");
         }
 
     }

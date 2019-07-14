@@ -9,7 +9,7 @@ namespace WaitForDocker.ComposeProcessing
         private const string ComposeServices = "services";
         private const string ComposePorts = "ports";
 
-        public IEnumerable<ServicePort> ExtractPorts(string jsonCompose)
+        public IEnumerable<ServicePort> ExtractServicePorts(string jsonCompose)
         {
             var servicesRoot = JObject.Parse(jsonCompose)[ComposeServices];
 

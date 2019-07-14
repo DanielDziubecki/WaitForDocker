@@ -5,20 +5,15 @@ using WaitForDocker.Logger;
 
 namespace WaitForDocker.Shell
 {
-    internal sealed class ShellConfigurator
+    internal sealed class ShellExecutor
     {
         private readonly ILogger _logger;
         private readonly IShell _shell;
 
-        public ShellConfigurator(IShell shell, ILogger logger)
+        public ShellExecutor(IShell shell, ILogger logger)
         {
             _logger = logger;
             _shell = shell ?? throw new ArgumentException(nameof(shell));
-
-            if (!OS.IsWin())
-            {
-                Execute("chmod +x cmd.sh");
-            }
         }
 
         public void Execute(string command, string commandType = "")
@@ -44,6 +39,7 @@ namespace WaitForDocker.Shell
                 _logger.Log(process.StandardOutput.ReadToEnd());
                 _logger.Log(process.StandardError.ReadToEnd());
                 _logger.Log($"Process finished with exit code: {process.ExitCode.ToString()}");
+                _logger.Log($"Command {commandType} finished");
                 _logger.Log(string.Empty);
             }
         }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <Authors>Daniel Dziubecki</Authors>
-	  <VersionPrefix>1.0.1</VersionPrefix>
+	  <VersionPrefix>2.0.0</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 

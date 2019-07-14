@@ -1,49 +1,42 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Sockets;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using WaitForDocker.ComposeProcessing;
+using WaitForDocker.Logger;
 
 namespace WaitForDocker.HealthCheckers
 {
-    internal static class TcpHealthChecker
+    internal sealed class TcpHealthChecker : DockerHealthChecker
     {
-        private const string LocalHost = "127.0.0.1";
-
-        internal static async Task<bool> IsServiceUp(ServicePort servicePort, int? timeoutInSeconds = null)
+        private readonly int servicePort;
+       
+        public TcpHealthChecker(int servicePort, int timeoutInSeconds,string serviceName, int? portOfDistinction, ILogger logger) : 
+            base(serviceName, timeoutInSeconds, portOfDistinction, logger)
         {
-            return timeoutInSeconds.HasValue ? await CheckWithTimeout(servicePort, timeoutInSeconds.Value) : await IsAvailable(servicePort);
+            this.servicePort = servicePort;
         }
 
-        private static async Task<bool> CheckWithTimeout(ServicePort servicePort, int timeoutInSeconds)
+        public override async Task<bool> IsHealthy()
         {
             var sp = new Stopwatch();
             sp.Start();
-            while (sp.Elapsed.Seconds < timeoutInSeconds)
+            Logger.Log($"TCP health check of {ServiceName} on port {servicePort} has been started..");
+            var attempts = 1;
+            while (sp.Elapsed.Seconds < TimeoutInSeconds)
             {
-                var isAvailable = await IsAvailable(servicePort);
+                var isAvailable = await PortAvailabilityChecker.IsAvailable(servicePort);
+                var result = isAvailable ? "successful" : "failed";
+                Logger.Log($"{attempts} TCP health check of {ServiceName} on port {servicePort} was {result}");
                 if (isAvailable)
+                {
+                    Logger.Log($"TCP health check of {ServiceName} returns success");
                     return true;
+                }
+                  
+                attempts++;
             }
-            return false;
-        }
 
-        private static async Task<bool> IsAvailable(ServicePort servicePort)
-        {
-            var client = new TcpClient();
-            try
-            {
-                await client.ConnectAsync(LocalHost, servicePort.Port);
-
-                if (client.Connected)
-                    return client.Connected;
-
-            }
-            catch (Exception)
-            {
-                //ignore
-            }
-            return false;
-        }
+            var exceptionMessage = $"Health check failed! Service {ServiceName} was not available on port number {servicePort} after {TimeoutInSeconds} seconds.";
+            Logger.Log(exceptionMessage);
+            throw new WaitForDockerException(exceptionMessage);
+        } 
     }
 }

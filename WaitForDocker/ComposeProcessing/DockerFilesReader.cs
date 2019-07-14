@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace WaitForDocker
+namespace WaitForDocker.ComposeProcessing
 {
     internal static class DockerFilesReader
     {

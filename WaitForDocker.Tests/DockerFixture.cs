@@ -7,23 +7,23 @@ namespace WaitForDocker.Tests
 {
     public class DockerFixture : IDisposable
     {
-        private readonly ConsoleOutputLogger consoleOutputLogger;
-        private readonly MessageSinkLogger messageSinkLogger;
-        private readonly DefaultLogger defaultLogger;
+        private WaitForDockerConfig config;
 
         public DockerFixture(IMessageSink messageSink)
         {
-            messageSinkLogger = new MessageSinkLogger(messageSink);
-            consoleOutputLogger = new ConsoleOutputLogger();
-            defaultLogger = new DefaultLogger();
-            var config = new WaitForComposeConfigurationBuilder()
-                .AddDockerServiceHealthCheck("rabbit", check => check.WithHttp(new Uri("sss")));
-            WaitForDocker.Compose().GetAwaiter().GetResult();
+            var logger = new DefaultLogger();
+
+            config = new WaitForDockerConfigurationBuilder()
+                 .SetCustomLogger(logger)
+                 .AddHealthCheck(check => check.WithHttp("rabbitmq", new Uri("http://localhost:15672"), portOfDistinction: 15672))
+                 .AddHealthCheck(check => check.WithCmd("rabbitmq", "rabbitmqctl status", portOfDistinction: 5672))
+                 .Build();
+            WaitForDocker.Compose(config).GetAwaiter().GetResult();
         }
 
         public void Dispose()
         {
-            WaitForDocker.ComposeKill().GetAwaiter().GetResult();
+            WaitForDocker.Kill(config).GetAwaiter().GetResult();
         }
     }
 }

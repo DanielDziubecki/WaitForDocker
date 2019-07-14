@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 
 namespace WaitForDocker.Logger
 {
@@ -9,7 +8,10 @@ namespace WaitForDocker.Logger
         private readonly ConcurrentQueue<string> logs = new ConcurrentQueue<string>();
         public string LogResult => string.Join(Environment.NewLine, logs);
 
-        public void Log(string message) => logs.Enqueue(message);
-
+        public void Log(string message)
+        {
+            Console.WriteLine(message);
+            logs.Enqueue(message);
+        }
     }
 }

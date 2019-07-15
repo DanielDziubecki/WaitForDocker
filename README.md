@@ -4,6 +4,12 @@ This project helps with automating integration tests of services using docker. I
 # Installation
 ```Install-Package WaitForDocker```
 # Prerequisites
-```docker-compose.yml``` which contains you infrastructure setup
+```docker-compose.yml``` which contains your infrastructure setup
 # Usage
 ```await WaitForDocker.Compose()```
+# Configuration
+By default `WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as copy always is required. If you want to use different directory or compose file name you can use config builder.
+``` var config = new WaitForDockerConfigurationBuilder()
+                        .SetComposeDirectoryPath("path")
+                        .SetCustomComposeFileName("filename")
+                        .Build();```

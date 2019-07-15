@@ -3,3 +3,7 @@ This project helps with automating integration tests of services using docker. I
 
 # Installation
 ```Install-Package WaitForDocker```
+# Prerequisites
+```docker-compose.yml``` which contains you infrastructure setup
+# Usage
+```await WaitForDocker.Compose()```

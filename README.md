@@ -13,4 +13,5 @@ By default `WaitForDocker` will look for ```docker-compose.yml``` in current dir
 var config = new WaitForDockerConfigurationBuilder()
                  .SetComposeDirectoryPath("path")
                  .SetCustomComposeFileName("filename")
-                 .Build();```
+                 .Build();
+```

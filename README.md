@@ -6,7 +6,9 @@ This project helps with automating integration tests of services using docker. I
 # Prerequisites
 ```docker-compose.yml``` which contains your infrastructure setup
 # Usage
-```csharp await WaitForDocker.Compose()```
+```csharp 
+await WaitForDocker.Compose();
+```
 # Configuration
 `WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as copy always is required. If you want to use different directory or compose file name you can use config builder.
 ```csharp

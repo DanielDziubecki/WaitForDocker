@@ -1,5 +1,5 @@
 # WaitForDocker
-This project will execute your `docker-compose.yml` file and will wait until all of services will be ready to use. This will be done directly from C# code, so this could be useful when there is a need to wait for docker services to be ready (e.g. integration tests in CI/CD pipeline). After finished work, you can easily remove your services by killing them.
+This project will execute your `docker-compose.yml` file and will wait until all of services will be ready to use. This could be useful e.g. in integration tests in CI/CD pipeline. After finished work, you can easily remove your services by killing them.
 
 # Installation
 ```Install-Package WaitForDocker```

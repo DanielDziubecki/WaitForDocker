@@ -53,4 +53,4 @@ await WaitForDocker.Kill();
 # Examples
 You can find example of usage in test folder of this repository
 
-[Tests](https://github.com/DanielDziubecki/WaitForDocker/tree/master/WaitForDocker.Tests)
+[Test folder](https://github.com/DanielDziubecki/WaitForDocker/tree/master/WaitForDocker.Tests)

@@ -34,12 +34,12 @@ If this is not enough you can specify your services health checks. At this momen
                   .AddHealthCheck(check => check.WithCustom(logger => new SomeHealthCheck("sqlserver", 100, null, logger)))
                   .Build();
 ```
-For create custom health check you have to inherit from ```csharp DockerHealthChecker``` class and pass it to `WithCustom` method.
-Each health check have a defult timeout set to `10` seconds, but you can specify any value you want.
+For create custom health check you have to inherit from ```DockerHealthChecker``` class and pass it to `WithCustom` method.
+Each health check have a default timeout is set to `10` seconds, but you can specify any value you want.
 
 # Logging
 For setup custom logger you have to implement ```ILogger``` interface and pass it to config. By default logs will be printed to the console.
-```
+```csharp
 var config = new WaitForDockerConfigurationBuilder()
                 .SetCustomLogger(new FileOutputLogger())
                 .Build();

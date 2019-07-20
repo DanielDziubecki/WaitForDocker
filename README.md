@@ -50,6 +50,7 @@ For kill all compose services you can use kill command
 await WaitForDocker.Kill();
 ```
 
-# Example
+# Examples
 You can find example of usage in test folder of this repository
+
 [Tests](https://github.com/DanielDziubecki/WaitForDocker/tree/master/WaitForDocker.Tests)

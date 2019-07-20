@@ -10,7 +10,7 @@ This project will execute your `docker-compose.yml` file and will wait until all
 await WaitForDocker.Compose();
 ```
 # Configuration
-`WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as copy always is required. If you want to use different directory or compose file name you can use config builder.
+`WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as **copy always is required**. If you want to use different directory or compose file name you can use config builder.
 ```csharp
 var config = new WaitForDockerConfigurationBuilder()
                  .SetComposeDirectoryPath("path")
@@ -44,3 +44,12 @@ var config = new WaitForDockerConfigurationBuilder()
                 .SetCustomLogger(new FileOutputLogger())
                 .Build();
 ```
+# Cleanup
+For kill all compose services you can use kill command
+```csharp
+await WaitForDocker.Kill();
+```
+
+# Example
+You can find example of usage in test folder of this repository
+[Tests](https://github.com/DanielDziubecki/WaitForDocker/tree/master/WaitForDocker.Tests)

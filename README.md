@@ -26,7 +26,7 @@ services:
     ports:
       - '6379:6379'
 ```
-If this is not enough you can specify your services health checks. At this moment there is 3 health checks. `HTTP`,`TCP` and `CMD` but you can create custom ones.  
+If this is not enough you can specify your services health checks. At this moment there are 3 types of health checks. `HTTP`,`TCP` and `CMD` but you can create custom ones.  
 ```csharp
  var config = new WaitForDockerConfigurationBuilder()
                   .AddHealthCheck(check => check.WithHttp("rabbitmq", new Uri("http://localhost:15672")))

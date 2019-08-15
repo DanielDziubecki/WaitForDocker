@@ -1,7 +1,7 @@
 ﻿using WaitForDocker.Logger;
 using Xunit.Abstractions;
 
-namespace WaitForDocker.Integrations.Xunit
+namespace WaitForDockers.Integrations.Xunit
 {
     public class XunitLogger : ILogger
     {

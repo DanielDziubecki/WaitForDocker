@@ -8,19 +8,19 @@ namespace WaitForDocker.HealthCheckers
 {
     internal sealed class HttpHealthCheck : DockerHealthChecker
     {
-        private readonly Uri url;
-        private readonly HttpClient client;
+        private readonly Uri _url;
+        private readonly HttpClient _client;
 
         public HttpHealthCheck(string serviceName, Uri url, ILogger logger, int timeoutInSeconds, int? portOfDistinction) :
             base(serviceName, logger, timeoutInSeconds, portOfDistinction)
         {
-            this.url = url;
-            client = new HttpClient();
+            _url = url;
+            _client = new HttpClient();
 
         }
         public override async Task<bool> IsHealthy()
         {
-            Logger.Log($"HTTP health check of {ServiceName} on url {url} has been started..");
+            Logger.Log($"HTTP health check of {ServiceName} on url {_url} has been started..");
             var sp = new Stopwatch();
             var attempts = 0;
             while (sp.Elapsed.Seconds < TimeoutInSeconds)
@@ -29,7 +29,7 @@ namespace WaitForDocker.HealthCheckers
                 {
                     sp.Start();
                     attempts++;
-                    var result = await client.GetAsync(url);
+                    var result = await _client.GetAsync(_url);
                     Logger.Log($"Attempt number {attempts} of {ServiceName} HTTP health check returns {result.StatusCode} status code.");
                     if (result.IsSuccessStatusCode)
                     {

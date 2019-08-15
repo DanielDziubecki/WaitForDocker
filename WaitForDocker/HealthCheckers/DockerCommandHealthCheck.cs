@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using WaitForDocker.ComposeProcessing;
@@ -10,22 +9,22 @@ namespace WaitForDocker.HealthCheckers
 {
     internal sealed class DockerCommandHealthCheck : DockerHealthChecker
     {
-        private readonly string composeProjectName;
-        private readonly string command;
-        private readonly IShell shell;
+        private readonly string _composeProjectName;
+        private readonly string _command;
+        private readonly IShell _shell;
         private const int SuccessExitCode = 0;
 
         public DockerCommandHealthCheck(string serviceName, string command, int timeoutInSeconds, string composeProjectName, int? portOfDistinction, ILogger logger) :
             base(serviceName, logger, timeoutInSeconds, portOfDistinction)
         {
-            this.composeProjectName = composeProjectName;
-            this.command = command;
-            shell = ShellFactory.GetShell();
+            _composeProjectName = composeProjectName;
+            _command = command;
+            _shell = ShellFactory.GetShell();
         }
 
         public override async Task<bool> IsHealthy()
         {
-            var fullDockerCommand = DockerCommandBuilder.BuildDockerExecCommand(composeProjectName, ServiceName, command);
+            var fullDockerCommand = DockerCommandBuilder.BuildDockerExecCommand(_composeProjectName, ServiceName, _command);
             Logger.Log($"Command health check of {ServiceName} with command {fullDockerCommand} has been started.");
             var startInfo = GetProcessStartInfo(fullDockerCommand);
             var sp = new Stopwatch();
@@ -69,8 +68,8 @@ namespace WaitForDocker.HealthCheckers
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = shell.GetFileName(),
-                Arguments = shell.CommandConstructor(fullDockerCommand),
+                FileName = _shell.GetFileName(),
+                Arguments = _shell.CommandConstructor(fullDockerCommand),
                 RedirectStandardInput = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

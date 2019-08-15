@@ -8,7 +8,7 @@ namespace WaitForDocker.Shell
         public static IShell GetShell()
         {
             IShell shell;
-            var osPlatform = OS.GetCurrent();
+            var osPlatform = Os.GetCurrent();
 
             if (osPlatform == OSPlatform.Windows)
             {

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace WaitForDocker.Shell
 {
-    internal static class OS
+    internal static class Os
     {
         public static bool IsWin() =>
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows);

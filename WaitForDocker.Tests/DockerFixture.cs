@@ -21,12 +21,12 @@ namespace WaitForDocker.Tests
                 .AddHealthCheck(check => check.WithCmd("rabbitmq", "rabbitmqctl status", portOfDistinction: 5672))
                 .AddHealthCheck(check => check.WithCustom(logger1 => new SomeHealthCheck("123", 1, null, logger1)))
                 .Build();
-            WaitForDocker.Compose(config).GetAwaiter().GetResult();
+            WaitFor.DockerCompose(config).GetAwaiter().GetResult();
         }
 
         public void Dispose()
         {
-            WaitForDocker.Kill(config).GetAwaiter().GetResult();
+            WaitFor.DockerKill(config).GetAwaiter().GetResult();
         }
     }
 

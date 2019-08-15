@@ -7,42 +7,42 @@ namespace WaitForDocker.Config
 {
     public class WaitForDockerConfigurationBuilder
     {
-        private readonly WaitForDockerConfig config = new WaitForDockerConfig();
+        private readonly WaitForDockerConfig _config = new WaitForDockerConfig();
         private List<Func<DockerHealthCheckFactory, DockerHealthChecker>> HealthChecksFuncs { get; } = new List<Func<DockerHealthCheckFactory, DockerHealthChecker>>();
 
         public WaitForDockerConfigurationBuilder SetComposeDirectoryPath(string path)
         {
-            config.DockerComposeDirPath = path;
+            _config.DockerComposeDirPath = path;
             return this;
         }
 
         public WaitForDockerConfigurationBuilder SetCustomComposeFileName(string fileName)
         {
-            config.ComposeFileName = fileName;
+            _config.ComposeFileName = fileName;
             return this;
         }
 
         public WaitForDockerConfigurationBuilder SetComposeParams(IEnumerable<string> composeParams)
         {
-            config.ComposeParams.AddRange(composeParams);
+            _config.ComposeParams.AddRange(composeParams);
             return this;
         }
 
         public WaitForDockerConfigurationBuilder SetCustomLogger(ILogger logger)
         {
-            config.Logger = logger;
+            _config.Logger = logger;
             return this;
         }
 
         public WaitForDockerConfigurationBuilder SetRenewAnonVolumes(bool renew)
         {
-            config.RenewAnonVolumes = renew;
+            _config.RenewAnonVolumes = renew;
             return this;
         }
 
         public WaitForDockerConfigurationBuilder SetProjectName(string projectName)
         {
-            config.DockerComposeProjectName = projectName;
+            _config.DockerComposeProjectName = projectName;
             return this;
         }
 
@@ -56,9 +56,9 @@ namespace WaitForDocker.Config
         {
             foreach (var healthChecksFunc in HealthChecksFuncs)
             {
-                config.HealthCheckers.Add(healthChecksFunc(new DockerHealthCheckFactory(config)));
+                _config.HealthCheckers.Add(healthChecksFunc(new DockerHealthCheckFactory(_config)));
             }
-            return config;
+            return _config;
         }
     }
 }

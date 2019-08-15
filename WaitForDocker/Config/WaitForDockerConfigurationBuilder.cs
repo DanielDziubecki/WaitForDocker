@@ -22,7 +22,7 @@ namespace WaitForDocker.Config
             return this;
         }
 
-        public WaitForDockerConfigurationBuilder SetComposeRunParams(IEnumerable<string> composeParams)
+        public WaitForDockerConfigurationBuilder SetComposeParams(IEnumerable<string> composeParams)
         {
             config.ComposeParams.AddRange(composeParams);
             return this;
@@ -31,6 +31,12 @@ namespace WaitForDocker.Config
         public WaitForDockerConfigurationBuilder SetCustomLogger(ILogger logger)
         {
             config.Logger = logger;
+            return this;
+        }
+
+        public WaitForDockerConfigurationBuilder SetRenewAnonVolumes(bool renew)
+        {
+            config.RenewAnonVolumes = renew;
             return this;
         }
 

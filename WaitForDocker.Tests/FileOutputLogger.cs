@@ -3,7 +3,7 @@ using WaitForDocker.Logger;
 
 namespace WaitForDocker.Tests
 {
-    public class ConsoleOutputLogger : ILogger
+    public class FileOutputLogger : ILogger
     {
         public void Log(string message)
         {

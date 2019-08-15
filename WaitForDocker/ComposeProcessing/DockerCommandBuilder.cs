@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using WaitForDocker.Config;
 
@@ -9,9 +8,10 @@ namespace WaitForDocker.ComposeProcessing
 {
     internal static class DockerCommandBuilder
     {
-        private const string ComposeUp = "docker-compose {0} up -d --no-color";
+        private const string ComposeUp = "docker-compose up -d --no-color {0}";
         private const string DockerKill = "docker kill {0}";
         private const string ChangeDirectory = "cd";
+        private const string RenewAnonVolumes = "--renew-anon-volumes";
 
         internal static string BuildComposeCommand(WaitForDockerConfig config)
         {
@@ -19,6 +19,10 @@ namespace WaitForDocker.ComposeProcessing
             var changeDirCommand = GetChangeDirCommand(config.DockerComposeDirPath);
 
             config.ComposeParams.Add($"{DockerConsts.DockerComposeProjectNameParam} {config.DockerComposeProjectName}");
+
+            if(config.RenewAnonVolumes)
+                config.ComposeParams.Add(RenewAnonVolumes);
+
             cmd.Append(changeDirCommand);
             cmd.Append(string.Format(ComposeUp, string.Join(" ", config.ComposeParams)));
             return cmd.ToString();

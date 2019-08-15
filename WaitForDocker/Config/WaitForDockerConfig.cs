@@ -17,5 +17,6 @@ namespace WaitForDocker.Config
         internal List<string> ComposeParams { get; set; } = new List<string>();    
         internal ILogger Logger { get; set; } = new DefaultLogger();
         internal List<DockerHealthChecker> HealthCheckers { get; set; } = new List<DockerHealthChecker>();
+        internal bool RenewAnonVolumes { get; set; } = true;
     }
 }

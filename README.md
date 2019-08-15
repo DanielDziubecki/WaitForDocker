@@ -9,6 +9,7 @@ This project will execute your `docker-compose.yml` file and will wait until all
 ```csharp 
 await WaitFor.DockerCompose();
 ```
+Above code will execute following command: `docker-compose -p  waitfordocker up -d --no-color --renew-anon-volumes`
 # Configuration
 `WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as **copy always is required**. If you want to use different directory or compose file name you can use config builder.
 ```csharp

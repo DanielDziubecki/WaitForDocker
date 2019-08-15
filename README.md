@@ -7,7 +7,7 @@ This project will execute your `docker-compose.yml` file and will wait until all
 ```docker-compose.yml``` which contains your infrastructure setup
 # Usage
 ```csharp 
-await WaitForDocker.Compose();
+await WaitFor.DockerCompose();
 ```
 # Configuration
 `WaitForDocker` will look for ```docker-compose.yml``` in current directory so marking this compose file as **copy always is required**. If you want to use different directory or compose file name you can use config builder.
@@ -47,7 +47,7 @@ var config = new WaitForDockerConfigurationBuilder()
 # Cleanup
 For kill all compose services you can use kill command
 ```csharp
-await WaitForDocker.Kill();
+await WaitFor.DockerKill();
 ```
 
 # Examples

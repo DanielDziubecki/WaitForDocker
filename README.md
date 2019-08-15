@@ -1,5 +1,5 @@
 # WaitForDocker
-This project will execute your `docker-compose.yml` file and will wait until all of services will be ready to use. This could be useful in e.g. integration tests in CI/CD pipeline. After finished work, you can easily remove your services by killing them.
+This project will execute your `docker-compose.yml` file and will wait until all of services will be ready to use. This could be useful in e.g. integration tests in CI/CD pipeline. After finished work, you can easily remove your services by killing them. This was tested on `Windows` and `Ubuntu`.
 
 # Installation
 ```Install-Package WaitForDocker```
